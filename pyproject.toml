@@ -1,0 +1,58 @@
+[project]
+name = "assistant"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "anapgh", email = "anapogarciah@gmail.com" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi>=0.162.0",
+    "langchain>=1.4.7",
+    "langchain-chroma>=1.1.0",
+    "langchain-ollama>=1.1.0",
+    "langgraph>=1.2.18",
+    "langgraph-checkpoint-sqlite>=3.1.2",
+    "pydantic-settings>=2.16.2",
+    "tenacity>=9.2.1",
+    "uvicorn[standard]>=0.54.0",
+]
+
+[project.scripts]
+assistant = "assistant:main"
+
+[build-system]
+requires = ["uv_build>=0.13.6,<0.14.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "httpx>=0.28.1",
+    "mlflow>=3.17.2",
+    "mypy>=2.4.0",
+    "pre-commit>=4.7.0",
+    "pytest>=9.2.0",
+    "pytest-cov>=7.1.0",
+    "ruff>=0.17.3",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+# E/F: errores básicos · I: orden de imports · B: bugs típicos
+# UP: sintaxis moderna · SIM: simplificaciones · N: nombres PEP 8
+select = ["E", "F", "I", "B", "UP", "SIM", "N"]
+
+[tool.mypy]
+python_version = "3.12"
+disallow_untyped_defs = true
+warn_return_any = true
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = ["integration: necesita Ollama u otros servicios en marcha"]
+addopts = "-m 'not integration'"   # por defecto, solo tests rápidos
